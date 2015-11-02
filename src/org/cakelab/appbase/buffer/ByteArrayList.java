@@ -1,5 +1,9 @@
 package org.cakelab.appbase.buffer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
+
 /**
  * Dynamically growing byte array
  * @author homac
@@ -43,6 +47,22 @@ public class ByteArrayList {
 
 	public int getSize() {
 		return size;
+	}
+
+
+	/** reads all available data from input stream into this buffer 
+	 * @throws IOException */
+	public void copy(InputStream in) throws IOException {
+		byte[] buffer = new byte[1024];
+		int size;
+		while (0 < (size = in.read(buffer))) {
+			add(buffer, size);
+		}
+	}
+
+
+	public byte[] toArray() {
+		return Arrays.copyOf(buffer, size);
 	}
 
 
