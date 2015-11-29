@@ -1,6 +1,6 @@
 package org.cakelab.appbase.gui;
 
-import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -16,7 +16,7 @@ public class GUIResourcesUtils {
 	public static InputStream asInputStream(String resource) {
 		return 	GUIUtils.class.getClassLoader().getResourceAsStream(resource);
 	}
-	public static Image asImage(String resource) throws IOException {
+	public static BufferedImage asImage(String resource) throws IOException {
 		return ImageIO.read(asInputStream(resource));
 	}
 	public static Icon asIcon(String resource) throws IOException {
