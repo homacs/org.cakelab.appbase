@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.cakelab.json.codec.JSONCodec;
+import org.cakelab.json.codec.JSONCodecConfiguration;
 import org.cakelab.json.codec.JSONCodecException;
 
 public class JsonConfigFile {
@@ -14,17 +15,39 @@ public class JsonConfigFile {
 	protected transient File file;
 	protected transient boolean modified;
 
-	public JsonConfigFile(File file) throws JSONCodecException, IOException {
+	protected transient JSONCodecConfiguration jsonCodecConfig;
+	
+	private static final JSONCodecConfiguration DEFAULT_JSON_CODEC_CONFIG;
+	static {
+		DEFAULT_JSON_CODEC_CONFIG = new JSONCodecConfiguration();
+		DEFAULT_JSON_CODEC_CONFIG.ignoreNull = true;
+		DEFAULT_JSON_CODEC_CONFIG.ignoreMissingFields = true;
+	}
+	
+	
+	public JsonConfigFile(JSONCodecConfiguration codecConfig, File file) throws JSONCodecException, IOException {
 		this.file = file;
 		this.modified = true;
-		if (this.file.exists()) {
+		this.jsonCodecConfig = codecConfig;
+		if (this.file != null && this.file.exists()) {
 			load();
 		}
+	}
+
+	public JsonConfigFile(JSONCodecConfiguration codecConfig) {
+		this.file = null;
+		this.modified = true;
+		this.jsonCodecConfig = codecConfig;
+	}
+
+	public JsonConfigFile(File file) throws JSONCodecException, IOException {
+		this(DEFAULT_JSON_CODEC_CONFIG, file);
 	}
 
 	public JsonConfigFile() {
 		this.file = null;
 		this.modified = true;
+		this.jsonCodecConfig = DEFAULT_JSON_CODEC_CONFIG;
 	}
 
 	public boolean exists() {
@@ -33,7 +56,7 @@ public class JsonConfigFile {
 	
 	public void load() throws JSONCodecException, IOException {
 		if (file == null) throw new IOException("no file attached");
-		JSONCodec codec = new JSONCodec(true, true);
+		JSONCodec codec = new JSONCodec(jsonCodecConfig);
 		InputStream in = new FileInputStream(this.file);
 		codec.decodeObject(in, this);
 		in.close();
@@ -42,7 +65,7 @@ public class JsonConfigFile {
 	
 	public void save() throws JSONCodecException, IOException {
 		if (file == null) throw new IOException("no file attached");
-		JSONCodec codec = new JSONCodec(true, true);
+		JSONCodec codec = new JSONCodec(jsonCodecConfig);
 		FileOutputStream out = new FileOutputStream(this.file);
 		codec.encodeObject(this, out);
 		out.close();
