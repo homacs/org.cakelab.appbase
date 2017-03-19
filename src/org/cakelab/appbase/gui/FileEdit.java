@@ -52,7 +52,6 @@ public class FileEdit extends JPanel implements ActionListener {
 
 		setLayout(layout);
 		
-		
 		folder = new JTextField();
 		
 		folder.addActionListener(this);
