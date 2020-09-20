@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 
 /**
- * Dynamically growing byte array
+ * Dynamically growing float array
  * @author homac
  *
  */
