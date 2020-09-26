@@ -23,9 +23,7 @@ import org.cakelab.appbase.log.Log;
 public class FileEdit extends JPanel implements ActionListener {
 	
 	public interface FolderVerifier {
-
 		boolean verify(FileEdit folderEdit);
-
 	}
 
 	private static final long serialVersionUID = 1149303417732884685L;
@@ -75,10 +73,7 @@ public class FileEdit extends JPanel implements ActionListener {
 		layout.setHorizontalGroup(layout.createSequentialGroup().addComponent(folder).addComponent(button));
 		layout.setVerticalGroup(layout.createParallelGroup(Alignment.CENTER).addComponent(folder).addComponent(button));
 		
-		
 	}
-	
-	
 	
 	
 	@Override
