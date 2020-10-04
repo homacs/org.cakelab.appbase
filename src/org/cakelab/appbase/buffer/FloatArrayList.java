@@ -1,7 +1,5 @@
 package org.cakelab.appbase.buffer;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Arrays;
 
 /**
@@ -19,7 +17,7 @@ public class FloatArrayList {
 	}
 	
 	
-	private void grow(int newsize) {
+	protected void grow(int newsize) {
 		if (newsize > buffer.length) {
 			int capacity = buffer.length;
 			while (capacity <= newsize) capacity *= 2;
@@ -29,15 +27,6 @@ public class FloatArrayList {
 		}
 	}
 	
-	public void add(byte[] that) {
-		add(that, that.length);
-	}
-
-	public void add(byte[] that, int length) {
-		grow(size + length);
-		System.arraycopy(that, 0, buffer, size, length);
-		size += length;
-	}
 
 
 	public float[] getBuffer() {
@@ -47,17 +36,6 @@ public class FloatArrayList {
 
 	public int getSize() {
 		return size;
-	}
-
-
-	/** reads all available data from input stream into this buffer 
-	 * @throws IOException */
-	public void copy(InputStream in) throws IOException {
-		byte[] buffer = new byte[1024];
-		int size;
-		while (0 < (size = in.read(buffer))) {
-			add(buffer, size);
-		}
 	}
 
 

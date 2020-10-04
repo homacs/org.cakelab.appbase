@@ -19,7 +19,7 @@ public class ByteArrayList {
 	}
 	
 	
-	private void grow(int newsize) {
+	protected void grow(int newsize) {
 		if (newsize > buffer.length) {
 			int capacity = buffer.length;
 			while (capacity <= newsize) capacity *= 2;
