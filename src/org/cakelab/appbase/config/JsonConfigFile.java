@@ -6,9 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.cakelab.json.JSONException;
 import org.cakelab.json.codec.JSONCodec;
 import org.cakelab.json.codec.JSONCodecConfiguration;
-import org.cakelab.json.codec.JSONCodecException;
 
 public class JsonConfigFile {
 
@@ -19,13 +19,13 @@ public class JsonConfigFile {
 	
 	private static final JSONCodecConfiguration DEFAULT_JSON_CODEC_CONFIG;
 	static {
-		DEFAULT_JSON_CODEC_CONFIG = new JSONCodecConfiguration();
-		DEFAULT_JSON_CODEC_CONFIG.ignoreNull = true;
-		DEFAULT_JSON_CODEC_CONFIG.ignoreMissingFields = true;
+		DEFAULT_JSON_CODEC_CONFIG = new JSONCodecConfiguration()
+				.ignoreNull(true)
+				.ignoreMissingFields(true);
 	}
 	
 	
-	public JsonConfigFile(JSONCodecConfiguration codecConfig, File file) throws JSONCodecException, IOException {
+	public JsonConfigFile(JSONCodecConfiguration codecConfig, File file) throws JSONException, IOException {
 		this.file = file;
 		this.modified = true;
 		this.jsonCodecConfig = codecConfig;
@@ -40,7 +40,7 @@ public class JsonConfigFile {
 		this.jsonCodecConfig = codecConfig;
 	}
 
-	public JsonConfigFile(File file) throws JSONCodecException, IOException {
+	public JsonConfigFile(File file) throws JSONException, IOException {
 		this(DEFAULT_JSON_CODEC_CONFIG, file);
 	}
 
@@ -54,7 +54,7 @@ public class JsonConfigFile {
 		return (file != null) && file.exists();
 	}
 	
-	public void load() throws JSONCodecException, IOException {
+	public void load() throws JSONException, IOException {
 		if (file == null) throw new IOException("no file attached");
 		JSONCodec codec = new JSONCodec(jsonCodecConfig);
 		InputStream in = new FileInputStream(this.file);
@@ -63,7 +63,7 @@ public class JsonConfigFile {
 		modified = false;
 	}
 	
-	public void save() throws JSONCodecException, IOException {
+	public void save() throws JSONException, IOException {
 		if (file == null) throw new IOException("no file attached");
 		JSONCodec codec = new JSONCodec(jsonCodecConfig);
 		FileOutputStream out = new FileOutputStream(this.file);
