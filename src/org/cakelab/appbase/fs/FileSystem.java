@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.Random;
 
-import org.cakelab.appbase.buffer.ByteArrayList;
 import org.cakelab.appbase.shell.Shell;
+import org.cakelab.util.types.ArrayListByte;
 
 
 
@@ -178,12 +178,12 @@ public class FileSystem {
 	public static String readText(InputStream in, Charset charset) throws IOException {
 		int size = 1024;
 		byte[] buffer = new byte[size];
-		ByteArrayList out = new ByteArrayList(1024);
+		ArrayListByte out = new ArrayListByte(1024);
 		while (0 < (size = in.read(buffer))) {
 			out.add(buffer, size);
 		}
-		byte[] bytes = out.getBuffer();
-		size = out.getSize();
+		byte[] bytes = out.data();
+		size = out.size();
 		if (bytes == null || bytes.length == 0) {
 			return "";
 		} else {

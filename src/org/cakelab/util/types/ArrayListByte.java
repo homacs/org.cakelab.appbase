@@ -1,4 +1,4 @@
-package org.cakelab.appbase.buffer;
+package org.cakelab.util.types;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,24 +9,14 @@ import java.util.Arrays;
  * @author homac
  *
  */
-public class ByteArrayList {
-	byte[] buffer;
+public class ArrayListByte {
+	
+	byte[] data;
 	private int size;
 	
-	public ByteArrayList(int initialCapacity) {
-		buffer = new byte[initialCapacity];
+	public ArrayListByte(int initialCapacity) {
+		data = new byte[initialCapacity];
 		size = 0;
-	}
-	
-	
-	protected void grow(int newsize) {
-		if (newsize > buffer.length) {
-			int capacity = buffer.length;
-			while (capacity <= newsize) capacity *= 2;
-			byte[] tmp = new byte[capacity];
-			System.arraycopy(buffer, 0, tmp, 0, size);
-			buffer = tmp;
-		}
 	}
 	
 	public void add(byte[] that) {
@@ -35,20 +25,18 @@ public class ByteArrayList {
 
 	public void add(byte[] that, int length) {
 		grow(size + length);
-		System.arraycopy(that, 0, buffer, size, length);
+		System.arraycopy(that, 0, data, size, length);
 		size += length;
 	}
 
 
-	public byte[] getBuffer() {
-		return buffer;
+	public byte[] data() {
+		return data;
 	}
 
-
-	public int getSize() {
+	public int size() {
 		return size;
 	}
-
 
 	/** reads all available data from input stream into this buffer 
 	 * @throws IOException */
@@ -62,11 +50,16 @@ public class ByteArrayList {
 
 
 	public byte[] toArray() {
-		return Arrays.copyOf(buffer, size);
+		return Arrays.copyOf(data, size);
 	}
 
-
-
+	public void grow(int newsize) {
+		if (newsize > data.length) {
+			int capacity = data.length;
+			while (capacity <= newsize) capacity *= 2;
+			data = Arrays.copyOf(data, capacity);
+		}
+	}
 	
 	
 }
